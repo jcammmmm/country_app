@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang='en' xmlns:='http://www.w3.org/1999/xhtml'
+	xmlns:f='http://xmlns.jcp.org/jsf/core'
+	xmlns:h='http://xmlns.jcp.org/jsf/html'>
+<h:head>
+	<title>WorldApp</title>
+</h:head>
+<h:body>
+	<h1>Beligerant Country Data</h1>
+	<h:form id="formTable">
+		#{displayCountriesBean}
+		<h:dataTable value="#{displayCountriesBean.countries}" var="country" id="mainDataTable">
+			<h:column>
+				<f:facet name="header">Name</f:facet>
+				<h:outputText value="#{country.countryname}" id="cName"/>
+			</h:column>	 		
+		</h:dataTable>
+	</h:form>
+</h:body>
+</html>
+
