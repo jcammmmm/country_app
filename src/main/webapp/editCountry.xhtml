@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang='en' xmlns:='http://www.w3.org/1999/xhtml'
+	xmlns:f='http://xmlns.jcp.org/jsf/core'
+	xmlns:h='http://xmlns.jcp.org/jsf/html'
+   
+    xmlns:c='http://xmlns.jcp.org/jsp/jstl/core'> <!-- for <c: tags... -->
+	
+<h:head>
+	<title>Country App</title>
+</h:head>
+<h:body>
+	<h1>Beligerant: #{displayCountries.currCountry.countryname} </h1>
+	<h:form id="editForm">
+		<h:outputLabel for="cName">Name := </h:outputLabel>
+		<h:inputText id='cName' value='#{displayCountriesBean.currCountry.countryname}' /><br/>
+		<h:outputLabel for="cPop">Population := </h:outputLabel>
+		<h:inputText id='cPop' value='#{displayCountriesBean.currCountry.population}' /><br/>
+		<h:outputLabel for="cExt">Extension := </h:outputLabel>
+		<h:inputText id='cExt' value='#{displayCountriesBean.currCountry.extension}' /><br/>
+		
+		<h:selectOneRadio id="govTypeOpt" value="#{displayCountriesBean.currCountry.govtype}">
+			<f:selectItem itemValue="ModoDeGobierno#1" itemLabel="ModoDeGobierno#1"/>
+			<f:selectItem itemValue="ModoDeGobierno#2" itemLabel="ModoDeGobierno#2"/>
+			<f:selectItem itemValue="ModoDeGobierno#3" itemLabel="ModoDeGobierno#3"/>
+			<f:selectItem itemValue="ModoDeGobierno#4" itemLabel="ModoDeGobierno#4"/>
+			<f:selectItem itemValue="ModoDeGobierno#5" itemLabel="ModoDeGobierno#5"/>		
+   		</h:selectOneRadio>
+
+   		<h:selectManyCheckbox id="warOption" value="#{displayCountriesBean.currCountry.strWars}">
+			<f:selectItem itemValue="WorldWarI" itemLabel="WorldWarI"/>
+			<f:selectItem itemValue="WorldWarII" itemLabel="WorldWarII"/>
+			<f:selectItem itemValue="GuerraDelGolfo" itemLabel="GuerraDelGolfo"/>
+			<f:selectItem itemValue="GuerraFria" itemLabel="GuerraFria"/>
+			<f:selectItem itemValue="GuerraDeVietnam" itemLabel="GuerraDeVietnam"/>
+   		</h:selectManyCheckbox>   		
+
+		<h:commandButton id="saveBtn" value='Save' action='#{displayCountriesBean.saveCountry}'>
+		</h:commandButton>
+	</h:form>
+    <h:commandLink value="Go back" action="/index.xhtml" >
+	</h:commandLink>
+</h:body>
+</html>

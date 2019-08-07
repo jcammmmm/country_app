@@ -8,13 +8,41 @@
 <h:body>
 	<h1>Beligerant Country Data</h1>
 	<h:form id="formTable">
-		#{displayCountriesBean}
 		<h:dataTable value="#{displayCountriesBean.countries}" var="country" id="mainDataTable">
 			<h:column>
 				<f:facet name="header">Name</f:facet>
 				<h:outputText value="#{country.countryname}" id="cName"/>
-			</h:column>	 		
+			</h:column>
+			<h:column>
+				<f:facet name="header">Population</f:facet>
+				<h:outputText value="#{country.population}" id="cPop"/>
+			</h:column>
+			<h:column>
+				<f:facet name="header">Extension</f:facet>
+				<h:outputText value="#{country.extension}" id="cExt"/>
+			</h:column>
+			<h:column>
+				<f:facet name="header">GovType</f:facet>
+				<h:outputText value="#{country.govtype}" id="cGov"/>
+			</h:column>
+			<h:column>
+				<f:facet name="header">Wars</f:facet>
+				<h:outputText value="#{country.wars}" id="cWars"/>
+			</h:column>
+					    <h:column>
+				<f:facet name="header">Edit</f:facet> 
+				<h:commandButton value='Edit' action='#{displayCountriesBean.updateCountry(country)}' id="bEdit">
+				</h:commandButton>
+		    </h:column>
+		    
+			<h:column>
+				<f:facet name="header">Delete</f:facet> 
+				<h:commandButton value='Delete' action='#{displayCountriesBean.deleteCountry(country)}' id="bDel">
+				</h:commandButton>
+		    </h:column>
 		</h:dataTable>
+		<h:commandButton value="Create" action="#{displayCountriesBean.createCountry}"> 
+		</h:commandButton>
 	</h:form>
 </h:body>
 </html>

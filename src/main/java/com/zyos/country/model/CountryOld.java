@@ -18,7 +18,7 @@ import javax.persistence.Transient;
 @Entity
 @Table(name = "country", schema = "public")
 
-public class Country implements java.io.Serializable {
+public class CountryOld implements java.io.Serializable {
 
 	// Fields
 
@@ -27,8 +27,7 @@ public class Country implements java.io.Serializable {
 	private Integer population;
 	private Double extension;
 	private String govtype;
-	@Column(name = "wars", length=200)
-	private String wars;
+	private Set<War> wars = new HashSet<War>(0);
 	
 	/*
 	 * Catches String values collected in war checkbox from editCountry.xml,
@@ -39,17 +38,17 @@ public class Country implements java.io.Serializable {
 	// Constructors
 
 	/** default constructor */
-	public Country() {
+	public CountryOld() {
 	}
 
 	/** minimal constructor */
-	public Country(Integer cid) {
+	public CountryOld(Integer cid) {
 		this.cid = cid;
 	}
 
 	/** full constructor */
-	public Country(Integer cid, String countryname, Integer population, Double extension, String govtype,
-			String wars) {
+	public CountryOld(Integer cid, String countryname, Integer population, Double extension, String govtype,
+			Set<War> wars) {
 		this.cid = cid;
 		this.countryname = countryname;
 		this.population = population;
@@ -111,11 +110,13 @@ public class Country implements java.io.Serializable {
 		this.govtype = govtype;
 	}
 
-	public String getWars() {
-		return wars;
+	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "country")
+
+	public Set<War> getWars() {
+		return this.wars;
 	}
 
-	public void setWars(String wars) {
+	public void setWars(Set<War> wars) {
 		this.wars = wars;
 	}
 
@@ -124,10 +125,9 @@ public class Country implements java.io.Serializable {
 		return strWars;
 	}
 
-	public void setStrWars(ArrayList<String> strWars) {
-		this.strWars = strWars;
-		wars = strWars.toString();
-	}
-	
-	
+//	public void setStrWars(ArrayList<String> strWars) {
+//		this.strWars = strWars;
+//		for(String s : strWars)
+//			wars.add(new War(null, this, s));
+//	}
 }

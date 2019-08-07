@@ -4,6 +4,9 @@ import java.util.List;
 import java.util.Set;
 import org.hibernate.LockOptions;
 import org.hibernate.Query;
+import org.hibernate.Session;
+import org.hibernate.Transaction;
+
 import static org.hibernate.criterion.Example.create;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -27,14 +30,27 @@ public class CountryDAO extends BaseHibernateDAO {
 	public static final String EXTENSION = "extension";
 	public static final String GOVTYPE = "govtype";
 
+	/*
+	 * https://docs.jboss.org/hibernate/orm/3.5/javadocs/org/hibernate/Session.html#save(java.lang.Object)
+	 * 
+	 * https://docs.jboss.org/hibernate/orm/5.1/userguide/html_single/Hibernate_User_Guide.html#associations-one-to-many
+	 */
 	public void save(Country transientInstance) {
 		log.debug("saving Country instance");
+		Session session = null;
+		Transaction tx = null;
 		try {
+			session = this.getSession();
+			tx = session.beginTransaction();
+			session.persist(transientInstance);
 			getSession().save(transientInstance);
+			tx.commit();
 			log.debug("save successful");
 		} catch (RuntimeException re) {
 			log.error("save failed", re);
 			throw re;
+		} finally {
+			session.close();
 		}
 	}
 
@@ -111,6 +127,18 @@ public class CountryDAO extends BaseHibernateDAO {
 		} catch (RuntimeException re) {
 			log.error("find all failed", re);
 			throw re;
+		}
+	}
+	
+	public List findAllwithWar() {
+		log.debug("finding all Country instance with associated Wars");
+		try {
+			String queryString = "FROM Country c, War w WHERE c.cid = w.country.cid";
+			Query queryObject = getSession().createQuery(queryString);
+			System.out.println("[CountryDAO.findAllwithWar()]" + queryObject.list());
+			return queryObject.list();
+		} catch (RuntimeException e) {
+			throw e;
 		}
 	}
 
